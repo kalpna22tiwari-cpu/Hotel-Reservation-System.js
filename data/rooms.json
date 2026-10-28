@@ -1,0 +1,152 @@
+[
+  {
+    "id": "RM-101",
+    "roomNumber": "101",
+    "category": "Standard",
+    "basePrice": 85,
+    "maxGuests": 2,
+    "amenities": [
+      "High-Speed Wi-Fi",
+      "Queen Bed",
+      "Air Conditioning",
+      "En-suite Bathroom",
+      "Work Desk"
+    ],
+    "isAvailable": true,
+    "description": "Cozy and modern standard room with garden view, perfect for solo travelers or couples.",
+    "image": "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "RM-102",
+    "roomNumber": "102",
+    "category": "Standard",
+    "basePrice": 90,
+    "maxGuests": 2,
+    "amenities": [
+      "High-Speed Wi-Fi",
+      "Twin Beds",
+      "Air Conditioning",
+      "LED TV",
+      "City View"
+    ],
+    "isAvailable": true,
+    "description": "Bright twin bed standard room with direct city views and dedicated workspace.",
+    "image": "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "RM-201",
+    "roomNumber": "201",
+    "category": "Deluxe",
+    "basePrice": 160,
+    "maxGuests": 3,
+    "hasBalcony": true,
+    "includesBreakfast": true,
+    "amenities": [
+      "High-Speed Wi-Fi",
+      "King Bed",
+      "Private Ocean Balcony",
+      "Mini Bar",
+      "Breakfast Buffet",
+      "55\" Smart TV"
+    ],
+    "isAvailable": true,
+    "description": "Luxurious deluxe room with panoramic balcony view, complimentary buffet breakfast, and minibar.",
+    "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "RM-202",
+    "roomNumber": "202",
+    "category": "Deluxe",
+    "basePrice": 175,
+    "maxGuests": 3,
+    "hasBalcony": true,
+    "includesBreakfast": true,
+    "amenities": [
+      "High-Speed Wi-Fi",
+      "King Bed",
+      "Mountain View Terrace",
+      "Espresso Maker",
+      "Luxury Bathrobes"
+    ],
+    "isAvailable": true,
+    "description": "Serene mountain-view deluxe retreat featuring premium pillow-top mattress and artisanal coffee bar.",
+    "image": "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "RM-301",
+    "roomNumber": "301",
+    "category": "Suite",
+    "basePrice": 320,
+    "maxGuests": 4,
+    "hasJacuzzi": true,
+    "hasPersonalButler": true,
+    "amenities": [
+      "Ultra High-Speed Wi-Fi",
+      "Private Hydro-Spa Jacuzzi",
+      "Separate Living Room",
+      "24/7 Butler Service",
+      "VIP Lounge",
+      "Complimentary Champagne"
+    ],
+    "isAvailable": true,
+    "description": "Presidential grand suite with private hydrotherapy jacuzzi, dedicated 24/7 butler, and executive club privileges.",
+    "image": "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "HSTL-A1",
+    "roomNumber": "Dorm-A (Bed 1)",
+    "category": "Hostel Dorm",
+    "basePrice": 28,
+    "maxGuests": 1,
+    "bedType": "Lower Privacy Pod Bunk",
+    "isCoed": true,
+    "amenities": [
+      "High-Speed Wi-Speed",
+      "Electronic Digital Locker",
+      "Privacy Blackout Curtain",
+      "Individual Power Socket & Reading Light",
+      "Shared Lounge & Guest Kitchen"
+    ],
+    "isAvailable": true,
+    "description": "Pod-style lower bunk bed in our vibrant backpacker dorm. Includes keycard security locker and communal lounge access.",
+    "image": "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "HSTL-A2",
+    "roomNumber": "Dorm-A (Bed 2)",
+    "category": "Hostel Dorm",
+    "basePrice": 26,
+    "maxGuests": 1,
+    "bedType": "Upper Bunk Bed",
+    "isCoed": true,
+    "amenities": [
+      "High-Speed Wi-Fi",
+      "Personal Locker",
+      "Reading Lamp",
+      "Shared Modern Shower Suites",
+      "Social Common Rooftop"
+    ],
+    "isAvailable": true,
+    "description": "Upper bunk bed in social 6-bed mixed dorm. Ideal for students, remote workers, and globetrotters.",
+    "image": "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "HSTL-F1",
+    "roomNumber": "Dorm-F (Bed 1 - Female Only)",
+    "category": "Hostel Dorm",
+    "basePrice": 30,
+    "maxGuests": 1,
+    "bedType": "Lower Privacy Bunk",
+    "isCoed": false,
+    "amenities": [
+      "High-Speed Wi-Fi",
+      "Female-Only Sanctuary",
+      "Full-Length Mirror & Vanity",
+      "Secure Locker",
+      "Hairdryer & En-suite Bath"
+    ],
+    "isAvailable": true,
+    "description": "Safe, premium female-only 4-bed dorm pod with dedicated vanity station and secure card access.",
+    "image": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80"
+  }
+]

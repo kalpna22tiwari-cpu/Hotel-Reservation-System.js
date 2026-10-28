@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grand Horizon Hotel & Hostel Reservation System</title>
+  <meta name="description" content="Object-Oriented Hotel and Hostel Reservation System featuring room categorization, instant booking, payment simulation, and booking management.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <a href="#" class="brand" id="brand-link">
+      <div class="brand-icon">🏨</div>
+      <div class="brand-text">
+        <h1>Grand Horizon</h1>
+        <span>Luxury Hotel & Boutique Hostel</span>
+      </div>
+    </a>
+
+    <nav class="nav-links">
+      <button class="nav-btn active" id="nav-rooms-btn" data-tab="tab-rooms">
+        <span>🛏️ Rooms & Dorms</span>
+      </button>
+      <button class="nav-btn" id="nav-bookings-btn" data-tab="tab-bookings">
+        <span>📋 Reservations</span>
+        <span class="badge-count" id="nav-booking-count">0</span>
+      </button>
+      <button class="nav-btn" id="nav-analytics-btn" data-tab="tab-analytics">
+        <span>📊 Analytics & Admin</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Live Metrics Banner -->
+  <section class="stats-banner" aria-label="System Statistics">
+    <div class="stat-item">
+      <div class="stat-icon">🏢</div>
+      <div class="stat-info">
+        <div class="stat-value" id="stat-total-rooms">8</div>
+        <div class="stat-label">Total Rooms & Dorms</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">✨</div>
+      <div class="stat-info">
+        <div class="stat-value" id="stat-available-rooms">8</div>
+        <div class="stat-label">Available Today</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">🛎️</div>
+      <div class="stat-info">
+        <div class="stat-value" id="stat-active-bookings">0</div>
+        <div class="stat-label">Confirmed Bookings</div>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">💳</div>
+      <div class="stat-info">
+        <div class="stat-value" id="stat-net-revenue">$0</div>
+        <div class="stat-label">Net Revenue</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search & Filter Card -->
+  <section class="hero-section" id="search-section">
+    <div class="search-card">
+      <div class="search-title-row">
+        <div>
+          <h2><span>🔍</span> Find Your Ideal Stay</h2>
+          <p>Filter by room categorization: Standard, Deluxe, Suite, or Budget Hostel Dorms</p>
+        </div>
+        <div class="category-pills" id="category-pills">
+          <button class="category-pill active" data-cat="All">All Categories</button>
+          <button class="category-pill" data-cat="Standard">Standard Rooms</button>
+          <button class="category-pill" data-cat="Deluxe">Deluxe Rooms</button>
+          <button class="category-pill" data-cat="Suite">VIP Suites</button>
+          <button class="category-pill" data-cat="Hostel Dorm">🎒 Hostel Dorms</button>
+        </div>
+      </div>
+
+      <form id="search-form" class="search-inputs-grid" onsubmit="event.preventDefault();">
+        <div class="input-group">
+          <label for="check-in-date">📅 Check-In Date</label>
+          <input type="date" id="check-in-date" class="input-control" required>
+        </div>
+
+        <div class="input-group">
+          <label for="check-out-date">📅 Check-Out Date</label>
+          <input type="date" id="check-out-date" class="input-control" required>
+        </div>
+
+        <div class="input-group">
+          <label for="guest-count">👥 Guests</label>
+          <select id="guest-count" class="input-control">
+            <option value="1">1 Guest / Solo Traveler</option>
+            <option value="2" selected>2 Guests (Double)</option>
+            <option value="3">3 Guests</option>
+            <option value="4">4+ Guests (Suite / Family)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="search-keyword">🔎 Search Keywords</label>
+          <input type="text" id="search-keyword" class="input-control" placeholder="e.g. Balcony, Jacuzzi, Locker, Ocean...">
+        </div>
+
+        <button type="submit" id="search-submit-btn" class="btn-primary">
+          <span>Search</span>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Main Content Views -->
+  <main class="content-container">
+
+    <!-- VIEW 1: ROOMS CATALOG -->
+    <section id="tab-rooms" class="tab-view active">
+      <div class="section-header">
+        <div>
+          <h2>Available Rooms & Dorm Accommodations</h2>
+          <p id="rooms-found-text" style="color: var(--text-muted); font-size: 0.9rem;">Showing all room inventory</p>
+        </div>
+        <button id="reset-filters-btn" class="btn-secondary" style="font-size: 0.85rem;">🔄 Reset Filters</button>
+      </div>
+
+      <div class="rooms-grid" id="rooms-grid-container">
+        <!-- Room cards will be populated dynamically by OOP models in app.js -->
+      </div>
+    </section>
+
+    <!-- VIEW 2: RESERVATIONS MANAGEMENT -->
+    <section id="tab-bookings" class="tab-view">
+      <div class="section-header">
+        <div>
+          <h2>Manage Bookings & Cancellations</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">View booking details, print official receipts, or cancel with automated refund calculation</p>
+        </div>
+        <div class="search-filter-bar">
+          <input type="text" id="booking-search-input" class="input-control" placeholder="Search by Booking ID or Guest Email..." style="width: 280px;">
+        </div>
+      </div>
+
+      <div class="reservations-table-wrap">
+        <table class="data-table" id="bookings-table">
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Guest Name</th>
+              <th>Room & Category</th>
+              <th>Stay Dates</th>
+              <th>Total Paid</th>
+              <th>Payment Method</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="bookings-table-body">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- VIEW 3: ANALYTICS & DATABASE -->
+    <section id="tab-analytics" class="tab-view">
+      <div class="section-header">
+        <div>
+          <h2>System Intelligence & Database I/O</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Inspect inventory distribution, financial summary, and backup database</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button id="btn-export-db" class="btn-secondary">💾 Export JSON Database</button>
+          <label for="import-db-file" class="btn-secondary" style="cursor: pointer; margin-bottom: 0;">
+            📂 Import JSON Database
+            <input type="file" id="import-db-file" accept=".json" style="display: none;">
+          </label>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+        <!-- Category Inventory Breakdown -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem;">
+          <h3 style="margin-bottom: 1rem; color: var(--accent-gold);">🏷️ Room Categorization</h3>
+          <div id="category-distribution-list" style="display: flex; flex-direction: column; gap: 10px;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Financial Summary -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem;">
+          <h3 style="margin-bottom: 1rem; color: var(--accent-gold);">💰 Financial Overview</h3>
+          <div id="financial-overview-list" style="display: flex; flex-direction: column; gap: 12px;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Add Custom Room Form -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem;">
+          <h3 style="margin-bottom: 1rem; color: var(--accent-gold);">➕ Add New Room / Dorm Bed</h3>
+          <form id="add-room-form" style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; gap: 10px;">
+              <input type="text" id="new-room-number" class="input-control" placeholder="Room/Bed # (e.g. 402)" required>
+              <select id="new-room-category" class="input-control" required>
+                <option value="Standard">Standard</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Suite">Suite</option>
+                <option value="Hostel Dorm">Hostel Dorm</option>
+              </select>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <input type="number" id="new-room-price" class="input-control" placeholder="Price/Night ($)" min="10" required>
+              <input type="number" id="new-room-capacity" class="input-control" placeholder="Max Guests" min="1" max="10" value="2" required>
+            </div>
+            <input type="text" id="new-room-desc" class="input-control" placeholder="Short description..." required>
+            <button type="submit" class="btn-primary" style="margin-top: 6px;">Add Room to System</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= MODAL: BOOKING & PAYMENT SIMULATION ================= -->
+  <div class="modal-overlay" id="booking-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="booking-modal-title">Book Accommodation</h3>
+        <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Room Summary Header -->
+        <div id="booking-room-summary" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1rem; display: flex; gap: 1rem; align-items: center;">
+          <img id="modal-room-thumb" src="" alt="Room Thumbnail" style="width: 80px; height: 60px; object-fit: cover; border-radius: 6px;">
+          <div>
+            <h4 id="modal-room-name" style="font-size: 1.1rem; color: #fff;">Deluxe Room #201</h4>
+            <p id="modal-room-pricing" style="font-size: 0.85rem; color: var(--accent-gold);">$160 / night + complimentary breakfast</p>
+          </div>
+        </div>
+
+        <!-- Guest Details Form -->
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <h4 style="font-size: 0.95rem; color: var(--text-muted); text-transform: uppercase;">1. Guest Information</h4>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <input type="text" id="guest-name" class="input-control" placeholder="Full Name" required value="Alexander Wright">
+            <input type="email" id="guest-email" class="input-control" placeholder="Email Address" required value="alex.wright@example.com">
+          </div>
+          <input type="tel" id="guest-phone" class="input-control" placeholder="Phone Number (e.g. +1 555-0199)" value="+1 (555) 019-2834">
+        </div>
+
+        <!-- Stay Details & Calculation -->
+        <div style="background: rgba(15,23,42,0.6); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem;">
+            <span style="color: var(--text-muted);">Duration:</span>
+            <span id="summary-stay-dates" style="font-weight: 600;">2 Nights</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem;">
+            <span style="color: var(--text-muted);">Room Rate Subtotal:</span>
+            <span id="summary-subtotal" style="font-weight: 600;">$320.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem;">
+            <span style="color: var(--text-muted);">Taxes & Fees (Subclass calculation):</span>
+            <span id="summary-tax" style="font-weight: 600;">$16.00</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding-top: 8px; border-top: 1px solid var(--border-color); font-size: 1.15rem; font-weight: 800; color: var(--accent-gold);">
+            <span>Total Payable:</span>
+            <span id="summary-total">$336.00</span>
+          </div>
+        </div>
+
+        <!-- Payment Simulation Section -->
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <h4 style="font-size: 0.95rem; color: var(--text-muted); text-transform: uppercase;">2. Payment Method Simulation</h4>
+          <div class="payment-tabs" id="payment-method-tabs">
+            <button class="payment-tab-btn active" data-method="card">💳 Card</button>
+            <button class="payment-tab-btn" data-method="upi">📱 UPI</button>
+            <button class="payment-tab-btn" data-method="netbanking">🏦 Net Banking</button>
+            <button class="payment-tab-btn" data-method="cash">💵 Pay at Desk</button>
+          </div>
+
+          <!-- Card Panel -->
+          <div class="payment-subpanel active" id="subpanel-card">
+            <div class="credit-card-preview">
+              <div class="card-chip"></div>
+              <div class="card-num-display" id="card-preview-number">•••• •••• •••• 4242</div>
+              <div class="card-bottom-row">
+                <div>
+                  <span>Cardholder</span>
+                  <div class="val" id="card-preview-holder">ALEXANDER WRIGHT</div>
+                </div>
+                <div>
+                  <span>Expires</span>
+                  <div class="val" id="card-preview-expiry">12/28</div>
+                </div>
+              </div>
+            </div>
+
+            <input type="text" id="pay-card-num" class="input-control" placeholder="Card Number (16 digits)" value="4532 8821 9012 4242" maxlength="19">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <input type="text" id="pay-card-exp" class="input-control" placeholder="MM/YY" value="12/28" maxlength="5">
+              <input type="password" id="pay-card-cvv" class="input-control" placeholder="CVV (3 digits)" value="789" maxlength="4">
+            </div>
+          </div>
+
+          <!-- UPI Panel -->
+          <div class="payment-subpanel" id="subpanel-upi">
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Enter your Unified Payments Interface (UPI) VPA ID:</p>
+            <input type="text" id="pay-upi-id" class="input-control" placeholder="username@okhdfcbank or phone@upi" value="alex@okaxis">
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: var(--text-muted);">
+              <span>⚡ Supported: Google Pay, PhonePe, Paytm, BHIM, Cred UPI</span>
+            </div>
+          </div>
+
+          <!-- Net Banking Panel -->
+          <div class="payment-subpanel" id="subpanel-netbanking">
+            <select id="pay-bank-select" class="input-control">
+              <option value="HDFC Bank">HDFC Bank</option>
+              <option value="State Bank of India">State Bank of India (SBI)</option>
+              <option value="ICICI Bank">ICICI Bank</option>
+              <option value="Axis Bank">Axis Bank</option>
+              <option value="JPMorgan Chase">JPMorgan Chase</option>
+              <option value="Bank of America">Bank of America</option>
+            </select>
+          </div>
+
+          <!-- Cash Panel -->
+          <div class="payment-subpanel" id="subpanel-cash">
+            <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); padding: 12px; border-radius: var(--radius-sm); font-size: 0.85rem; color: #a7f3d0;">
+              ✓ No upfront payment required. You will settle your invoice directly at the hotel/hostel reception desk upon arrival.
+            </div>
+          </div>
+        </div>
+
+        <button id="btn-process-booking" class="btn-primary" style="margin-top: 10px; height: 48px; font-size: 1rem;">
+          <span>🔒 Confirm & Pay $<span id="btn-pay-amount">336.00</span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: INVOICE & BOOKING DETAILS ================= -->
+  <div class="modal-overlay" id="invoice-modal">
+    <div class="modal-card invoice-card">
+      <div class="modal-header">
+        <h3>Official Reservation Receipt</h3>
+        <button class="modal-close-btn" id="invoice-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="invoice-sheet" id="invoice-sheet-content">
+          <div class="invoice-header">
+            <div>
+              <div class="invoice-hotel-title">GRAND HORIZON RESIDENCE & HOSTEL</div>
+              <div class="invoice-hotel-sub">742 Ocean Blvd, Suite 100 • 24/7 Concierge: +1 (800) 555-ROOM</div>
+            </div>
+            <div class="invoice-ref-box">
+              <div class="invoice-ref-title">Booking Reference</div>
+              <div class="invoice-ref-id" id="inv-ref-id">BK-847291</div>
+              <div style="font-size: 0.75rem; color: #64748b;" id="inv-date">Issued Oct 26, 2026</div>
+            </div>
+          </div>
+
+          <div class="invoice-details-grid">
+            <div class="invoice-col">
+              <h4>Guest Information</h4>
+              <p><strong id="inv-guest-name">Alexander Wright</strong></p>
+              <p id="inv-guest-email">alex.wright@example.com</p>
+              <p id="inv-guest-phone">+1 (555) 019-2834</p>
+            </div>
+            <div class="invoice-col">
+              <h4>Stay & Room Details</h4>
+              <p><strong id="inv-room-name">Deluxe Room #201</strong></p>
+              <p id="inv-stay-dates">Nov 1, 2026 — Nov 3, 2026 (2 Nights)</p>
+              <p id="inv-guests-count">2 Guests</p>
+            </div>
+          </div>
+
+          <table class="invoice-breakdown-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Rate</th>
+                <th>Qty</th>
+                <th style="text-align: right;">Amount</th>
+              </tr>
+            </thead>
+            <tbody id="inv-breakdown-body">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+
+          <div id="inv-cancellation-block" style="display: none; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 6px; padding: 12px; margin-top: 1rem; color: #9f1239; font-size: 0.85rem;">
+            <strong>RESERVATION CANCELLED</strong>
+            <div id="inv-cancellation-details">Refund processed: $336.00 (100%)</div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 1rem;">
+          <button id="btn-print-invoice" class="btn-primary" style="height: 38px; font-size: 0.9rem;">
+            <span>🖨️ Print / Save Receipt</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

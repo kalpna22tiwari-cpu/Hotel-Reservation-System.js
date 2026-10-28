@@ -1,0 +1,21 @@
+{
+  "name": "hotel-and-hostel-reservation-system",
+  "version": "1.0.0",
+  "description": "Comprehensive Object-Oriented Hotel & Hostel Reservation System with Search, Categorization, Payment Simulation, and File I/O Persistence",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "demo": "node index.js",
+    "cli": "node index.js --interactive"
+  },
+  "keywords": [
+    "oop",
+    "hotel-reservation",
+    "hostel-reservation",
+    "payment-simulation",
+    "file-io",
+    "javascript"
+  ],
+  "author": "Antigravity Engineering",
+  "license": "ISC"
+}
